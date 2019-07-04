@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="CSS/normalize.css" />
+        <link rel="stylesheet" href="CSS/reset.css" />
+        <link rel="stylesheet" href="CSS/stylesheet.css" />
+        <script src="JS Files/login.js"></script>
+        <script src="JS Files/todo.js"></script>
+        <title>To Do </title>   
+    </head>
+    <body>
+
+    <div class=center>
+        <h1>My To Do List</h1>
+        <form method="POST" name="login">
+            <input type="text" id="description">
+            <input type="button" value="Profile" id="profile" onclick="profile()"><br /><br />
+            Category<select name="categories" value="Select Category" id="categories"required>&nbsp;
+            <option id="categories" value="Personal">Personal</option>
+            <option id="categories" value="Office">Office</option>
+        </select>
+            Due Date <input type="date" name="date" id="due-date"required>
+            Reminder<input type="date" name="date" id="date"required>
+            <ul id="myUL"></ul>
+            <input type="button" value="Add" id="Add" onclick="newElement()"><br /><br />
+            <input type="button"  value="Logout" onclick="onSubmit()"><br /><br />
+        
+        </form>
+    </div>    
+    </body>
+</html>
