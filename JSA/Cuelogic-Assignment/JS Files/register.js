@@ -122,3 +122,20 @@ function registration(){
         alert('Something went wrong');
     }
 }
+
+function getimgbase64(Image){
+    var reader = new FileReader();
+    reader.readAsDataURL(Image);
+   
+    reader.onload = function () {
+      
+        var imgdata = reader.result;
+        
+        localStorage.setItem("tempimgdata",imgdata);
+    
+    };
+
+    reader.onerror = function (error) {
+    };
+ 
+}

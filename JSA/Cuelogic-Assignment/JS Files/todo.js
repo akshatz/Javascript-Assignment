@@ -1,6 +1,17 @@
 var  user_name, user, duedate, reminder, categories;
 var user_array = JSON.parse(localStorage.getItem("userDetails"));
 user_name = sessionStorage.getItem("user"); //fetch data from session storage
+var user_array = JSON.parse(localStorage.getItem("userDetails"));
+var session = sessionStorage.user;
+
+for(var index = 0; index < user_array.length; index++)
+{
+  if(session == user_array[index].Username)   // username found then break
+  {
+    var userid =index;
+    break;
+  }
+}
 //Add function
 function newElement() {
     var description= document.getElementById("description").value;
@@ -8,15 +19,18 @@ function newElement() {
     var Due_Date=document.getElementById("due_date").value;
     var categories=document.getElementById("categories").value;
     var todoid=new Date().getTime();
+    var isPublic = document.getElementsByName("isPublic");
     var todoObj = {
       "TodoId":todoid,
       "Description": description,
       "Reminder": reminder,
       "Due_Date":Due_Date,
-      "Categories":categories
+      "Categories":categories,
+      'isDone': "Pending",
+      "isPublic":isPublic
   }
-   window.location.reload();
-  if(description==""||reminder==""||due_date==""||categories==""){
+  window.location.reload();
+  if(description==""||reminder==""||due_date==""||categories==""||isPublic==''){
      return false;
   }
  //local storage
@@ -38,14 +52,13 @@ function display_element(inputArray){
   a.removeChild(deleteChild);
   deleteChild=a.lastElementChild;
   } 
-
   for( var index = 0; index < inputArray.length; index++ ) {
       var input= document.createElement("input");
       input.setAttribute("type", "checkbox");
       input.setAttribute("class", "selectedcheckbox"+index);
       var td1=document.createElement("tr");
-      var row = "<tr><td><input type ='checkbox' class='checkbox' name='rows' id=checkbox-"+inputArray[index].TodoId+"></td><td>"+inputArray[index].Description+"</td><td>"+inputArray[index].Categories+"</td><td>"+inputArray[index].Due_Date+"</td><td>"+inputArray[index].Reminder+"</td><input type='button' value='Edit'id=edit-"+inputArray[index].TodoId+" onclick=edit("+inputArray[index].TodoId+"); />&nbsp;</td<td><input type='button' value='Save' onclick=save("+inputArray[index].TodoId+")></td></tr>";
 
+      var row = "<tr><td><input type ='checkbox' class='check' name='rows' id=checkbox-"+inputArray[index].TodoId+"></td><td>"+inputArray[index].Description+"</td><td>"+inputArray[index].Categories+"</td><td>"+inputArray[index].Due_Date+"</td><td>"+inputArray[index].Reminder+"</td><td>"+inputArray[index].isPublic+"</td><td>"+inputArray[index].isDone+"</td><td><input type='checkbox' class='checkbox'  onclick='replaceIsDone()' /></td> <td><input type = 'button' value = 'Edit' id = edit-"+inputArray[index].TodoId+" onclick=edit("+inputArray[index].TodoId+") /></td> <td><input type='button' value='Save' onclick=save("+inputArray[index].TodoId+")></td></tr>";
       td1.innerHTML=row;
       var table_head = document.getElementById("table_body");
       table_head.appendChild(td1);
@@ -53,22 +66,10 @@ function display_element(inputArray){
 }
 //Delete Function
 function onDelete(){
-  var user_array = JSON.parse(localStorage.getItem("userDetails"));
-  var session = sessionStorage.user;
-
-  for(var index = 0; index < user_array.length; index++)
-  {
-    if(session == user_array[index].Username)   // username found then break
-    {
-      var userid =index;
-      break;
-    }
-  }
   var checkedarray=[];
   user_array= JSON.parse(localStorage.getItem("userDetails"));
   var deletearray = document.getElementsByName("rows");
-  for(var j = 0;j < deletearray.length;j++)
-  {
+  for(var j = 0;j < deletearray.length;j++){
     todostring = deletearray[j].id;
     todoid = todostring.split("-");
     if(document.getElementById("checkbox-"+todoid[1]).checked == true)
@@ -82,9 +83,9 @@ function onDelete(){
     {
     if(user_array[userid].ToDO[j].TodoId == checkedarray[i]){
         user_array[userid].ToDO.splice(j, 1);
+      }
     }
   }
-}
 
       localStorage.setItem("userDetails",JSON.stringify(user_array));
       window.location.reload();

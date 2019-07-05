@@ -11,39 +11,43 @@
         <title>To Do </title>
     </head>
     <body onload="filter();">
-
     <div class=center>
         <h1>My To Do List</h1>
         <form method="POST" name="login">
-            Description<input type="text" placeholder="Enter todo list" id="description">
-            Filter By
-        <select name="categories" value="Select Category" id="filterbycategories" onchange="filter()">
-            <option  value="Category">Select Category</option>                
-            <option  value="Personal" id="personal">Personal</option>
-            <option value="Office" id="office">Office</option>
-        </select>
-       <input type="date" id="sdate" onchange="filterbyDate()"/>
-       <input type="date" id="edate" onchange="filterbyDate()"/>
-         
-        <input type="button" value="Logout" id="profile" onclick="onSubmit()"><br/><br />
+            Description<input type="text" placeholder="Enter todo list" id="description"><br /><br />
+        <input type="button" value="Logout" class="profile" onclick="onSubmit()">
+        <input type="button"  value="Profile" class="profile" onclick="viewprofile()">
             Category
             <select name="categories" value="Select Category" id="categories"required>&nbsp;
                 <option  id="select">Select Category</option>
                 <option  value="Personal" id="personal">Personal</option>
                 <option  value="Office" id="office">Office</option>
             </select><br /><br />
-            Is Public <input type ="radio" id="isPublic" onchange="isPublic()">
-            <input type ="radio" id="isPublic" onchange="isPublic()"><br /><br />
-
-            Due Date <input type="date" name="date" id="due_date"required>
-            Reminder<input type="date" name="date" id="reminder"required>
+            is Public <input type ="radio" name="isPublic" class="isPublicYes">Yes
+                    <input type ="radio" name="isPublic" class="isPublicNo" >No<br /><br />
+            
+            Due Date <input type="date" name="date" id="due_date"required><br /><br />
+            Reminder<input type="date" name="date" id="reminder"required><br /><br />
             <ul id="myUL"></ul>
-            <input type="button" value="Add" id="Add" onclick="newElement()"><br /><br />
-            <input type="button"  value="Profile" onclick="viewprofile()"><br /><br />
-            <input type="button" value="Delete" onclick="onDelete()"><br /><br />
+            <input type="button" value="Add" id="Add" onclick="newElement()">
+            
+            <input type="button" value="Delete" onclick="onDelete()">
         </form>
+<form method="POST">
+    Filter By
+    <select name="categories" value="Select Category" id="filterbycategories" onchange="filter()">
+        <option  value="Category">Select Category</option>                
+        <option  value="Personal" id="personal">Personal</option>
+        <option value="Office" id="office">Office</option>
+    </select>
+   <input type="date" id="sdate" onchange="filterbyDate()"/>
+   <input type="date" id="edate" onchange="filterbyDate()"/>
+   is Public <input type ="radio" name="isPublic" value="Public" class="isPublicYes" onchange="isPublic()">Yes
+   <input type ="radio" name="isPublic" class="isPublicNo" onchange="isPublic()" value="Private">No
+   
 
-    <table id="todo_table" width="100%">
+</form>
+    <table id="todo_table" width="50%">
         <thead id ="table_head">
             <tr>
                 <td>Select</td>
@@ -51,6 +55,8 @@
                 <td>Category</td>
                 <td>DueDate</td>
                 <td>Reminder</td>
+                <td>isPublic</td>
+                <td>isDone</td>
             </tr>
         </thead>
         <tbody id="table_body" ></tbody>
