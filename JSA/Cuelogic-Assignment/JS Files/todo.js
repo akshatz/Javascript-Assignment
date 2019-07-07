@@ -1,4 +1,4 @@
-var  user_name, user, duedate, reminder, categories;
+var  user_name, user, duedate, reminder, categories, isPublic;
 var user_array = JSON.parse(localStorage.getItem("userDetails"));
 user_name = sessionStorage.getItem("user"); //fetch data from session storage
 var user_array = JSON.parse(localStorage.getItem("userDetails"));
@@ -19,30 +19,49 @@ function newElement() {
     var Due_Date=document.getElementById("due_date").value;
     var categories=document.getElementById("categories").value;
     var todoid=new Date().getTime();
-    var isPublic = document.getElementsByName("isPublic");
+    var isPublic =  document.querySelector('input[name="chooseone"]:checked').value;
+    var pending = document.getElementById("pending").value;
     var todoObj = {
-      "TodoId":todoid,
-      "Description": description,
-      "Reminder": reminder,
-      "Due_Date":Due_Date,
-      "Categories":categories,
-      'isDone': "Pending",
-      "isPublic":isPublic
+      "TodoId" : todoid,
+      "Description" : description,
+      "Reminder" : reminder,
+      "Due_Date" : Due_Date,
+      "Categories" :categories,      
+      "isPublic" : isPublic,
+      "isDone": pending
   }
   window.location.reload();
-  if(description==""||reminder==""||due_date==""||categories==""||isPublic==''){
+  if(description==""||reminder==""||due_date==""||categories==""||isPublic==""){
      return false;
   }
- //local storage
-      for(var i = 0; i < user_array.length; i++)
-      {
-        if(user_name == user_array[i].Username)   // username found then break
-        {
-          user_array[i].ToDO.push(todoObj);
-          break;
-        }
+  
+  for(var i = 0; i < user_array.length; i++)
+  {
+    if(user_name == user_array[i].Username)   // username found then break
+    {
+      user_array[i].ToDO.push(todoObj);
+      break;
+    }
+  }
+  localStorage.setItem("userDetails",JSON.stringify(user_array));
+}
+  function getRadioVal(todo,name) {
+    if(document.getElementsByClassName("radio").values === "Public"){
+      isPublic = "Public";
       }
-      localStorage.setItem("userDetails",JSON.stringify(user_array));}
+    else if(document.getElementsByName("radio").values === "Private"){
+        isPublic = "Private";
+      }
+    return  isPublic;
+}
+ //local storage
+//  for (var i = 0, length = radios.length; i < length; i++){
+//   if (radio[i].checked){
+//    alert(radio[i].value);
+//    break;
+//   }
+//  }
+
 //Display function
 function display_element(inputArray){
   let a=document.getElementById("table_body");
@@ -57,8 +76,7 @@ function display_element(inputArray){
       input.setAttribute("type", "checkbox");
       input.setAttribute("class", "selectedcheckbox"+index);
       var td1=document.createElement("tr");
-
-      var row = "<tr><td><input type ='checkbox' class='check' name='rows' id=checkbox-"+inputArray[index].TodoId+"></td><td>"+inputArray[index].Description+"</td><td>"+inputArray[index].Categories+"</td><td>"+inputArray[index].Due_Date+"</td><td>"+inputArray[index].Reminder+"</td><td>"+inputArray[index].isPublic+"</td><td>"+inputArray[index].isDone+"</td><td><input type='checkbox' class='checkbox'  onclick='replaceIsDone()' /></td> <td><input type = 'button' value = 'Edit' id = edit-"+inputArray[index].TodoId+" onclick=edit("+inputArray[index].TodoId+") /></td> <td><input type='button' value='Save' onclick=save("+inputArray[index].TodoId+")></td></tr>";
+      var row = "<tr><td><input type ='checkbox' class='check' name='rows' id=checkbox-"+inputArray[index].TodoId+"></td><td>"+inputArray[index].Description+"</td><td>"+inputArray[index].Categories+"</td><td>"+inputArray[index].Due_Date+"</td><td>"+inputArray[index].Reminder+"</td><td>"+inputArray[index].isPublic  +"</td><td>"+inputArray[index].isDone+"</td><td><input type='button'  value='Done' id= done-"+inputArray[index].TodoId+" onclick = done("+inputArray[index].TodoId+")></td><td><input type = 'button' value = 'Edit' id = edit-"+inputArray[index].TodoId+" onclick=edit("+inputArray[index].TodoId+") /></td> <td><input type='button' value='Save'  id = save-"+inputArray[index].TodoId+" onclick=save("+inputArray[index].TodoId+")></td></tr>";
       td1.innerHTML=row;
       var table_head = document.getElementById("table_body");
       table_head.appendChild(td1);
